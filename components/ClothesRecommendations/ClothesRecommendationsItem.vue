@@ -8,13 +8,19 @@
 </template>
 
 <style scoped lang="scss">
+@import '@/assets/styles/breakpoints';
+
 .clothes-recommendations__item {
   display: flex;
   flex-direction: column;
   align-items: center;
 
   &-image {
-    max-width: 100px;
+    max-width: 70px;
+
+    @include respond-to('xl') {
+      max-width: 100px;
+    }
   }
 }
 </style>

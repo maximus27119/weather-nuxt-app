@@ -7,6 +7,8 @@
 </template>
 
 <style scoped lang="scss">
+@import '@/assets/styles/breakpoints';
+
 .weather-forecast-item {
   display: flex;
   flex-direction: column;
@@ -18,7 +20,11 @@
   }
 
   &__weather-image {
-    max-height: 70px;
+    max-height: 50px;
+
+    @include respond-to('xl') {
+      max-height: 70px;
+    }
   }
 }
 </style>
