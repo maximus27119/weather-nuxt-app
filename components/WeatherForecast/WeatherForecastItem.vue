@@ -7,7 +7,7 @@
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/breakpoints';
+@use '@/assets/styles/breakpoints' as bp;
 
 .weather-forecast-item {
   display: flex;
@@ -22,7 +22,7 @@
   &__weather-image {
     max-height: 50px;
 
-    @include respond-to('xl') {
+    @include bp.respond-to('xl') {
       max-height: 70px;
     }
   }

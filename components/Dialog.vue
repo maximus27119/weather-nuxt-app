@@ -7,7 +7,7 @@
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/styles/breakpoints";
+@use "@/assets/styles/breakpoints" as bp;
 
 .dialog {
   width: 100%;
@@ -16,7 +16,7 @@
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  @include respond-to('xl') {
+  @include bp.respond-to('xl') {
     max-height: 768px;
     max-width: 1200px;
     border-radius: 10px;
@@ -31,11 +31,11 @@
   display: flex;
   flex-direction: column;
 
-  @include respond-to('xl') {
+  @include bp.respond-to('xl') {
     padding: 64px 68px;
   }
 
-  @include respond-to('lg') {
+  @include bp.respond-to('lg') {
     flex-direction: row;
   }
 }

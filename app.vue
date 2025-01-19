@@ -6,7 +6,7 @@
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/breakpoints.scss';
+@use '@/assets/styles/breakpoints.scss' as bp;
 
 .app {
   background-image: url('/background0.jpg');
@@ -17,7 +17,7 @@
   margin: 0;
   height: 100%;
 
-  @include respond-to('lg') {
+  @include bp.respond-to('lg') {
     height: 100vh;
   }
 }

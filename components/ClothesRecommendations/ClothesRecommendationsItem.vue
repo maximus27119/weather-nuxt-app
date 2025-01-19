@@ -8,7 +8,7 @@
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/breakpoints';
+@use '@/assets/styles/breakpoints' as bp;
 
 .clothes-recommendations__item {
   display: flex;
@@ -18,7 +18,7 @@
   &-image {
     max-width: 70px;
 
-    @include respond-to('xl') {
+    @include bp.respond-to('xl') {
       max-width: 100px;
     }
   }

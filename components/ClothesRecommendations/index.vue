@@ -14,7 +14,7 @@
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/breakpoints';
+@use '@/assets/styles/breakpoints' as bp;
 
 .clothes-recommendations {
   width: 100%;
@@ -45,7 +45,7 @@
     line-height: 1;
     padding-bottom: 30px;
 
-    @include respond-to('lg') {
+    @include bp.respond-to('lg') {
       padding-bottom: 10px;
     }
   }

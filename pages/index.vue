@@ -18,7 +18,7 @@
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/styles/breakpoints";
+@use "@/assets/styles/breakpoints" as bp;
 
 .dialog-container {
   height: 100%;
@@ -29,7 +29,7 @@
 
 .dialog-content {
   &__weather {
-    @include respond-to('lg') {
+    @include bp.respond-to('lg') {
       display: flex;
       width: 50%;
       max-width: 50%;
@@ -42,7 +42,7 @@
     flex-direction: column-reverse;
     justify-content: space-between;
 
-    @include respond-to('lg') {
+    @include bp.respond-to('lg') {
       width: 50%;
       flex-direction: column;
     }
@@ -60,14 +60,14 @@
     flex: 0 0 auto;
     padding-bottom: 50px;
 
-    @include respond-to('lg') {
+    @include bp.respond-to('lg') {
       padding-bottom: 0;
     }
   }
 }
 
 .horizontal-divider {
-  @include respond-to('lg') {
+  @include bp.respond-to('lg') {
     display: none;
   }
 }
