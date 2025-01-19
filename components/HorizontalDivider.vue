@@ -2,6 +2,12 @@
   <div class="verticalDivider"></div>
 </template>
 
+<script>
+export default {
+  name: 'HorizontalDivider'
+}
+</script>
+
 <style scoped lang="scss">
 .verticalDivider {
   width: 100%;
@@ -11,5 +17,3 @@
   margin: 50px 0;
 }
 </style>
-<script setup lang="ts">
-</script>

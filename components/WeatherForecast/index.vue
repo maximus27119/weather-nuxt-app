@@ -1,5 +1,5 @@
 <template>
-  <div class="weather-forecast-container">
+  <div class="weather-forecast-container w-full flex justify-evenly">
     <WeatherForecastItem/>
     <WeatherForecastItem/>
     <WeatherForecastItem/>
@@ -8,10 +8,8 @@
   </div>
 </template>
 
-<style scoped lang="scss">
-.weather-forecast-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
+<script>
+export default {
+  name: 'WeatherForecast'
 }
-</style>
+</script>

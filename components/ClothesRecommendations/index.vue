@@ -1,57 +1,23 @@
 <template>
-  <div class="clothes-recommendations">
-    <p class="clothes-recommendations__title">Clothes recommendations</p>
-    <div class="clothes-recommendations__recommendations">
+  <div class="w-full h-full flex flex-col justify-around items-center text-xl">
+    <p class="text-center pb-5 font-bold">Clothes recommendations</p>
+    <div class="grid grid-cols-3 grid-rows-2 gap-x-7 gap-y-2.5">
       <ClothesRecommendationsItem/>
       <ClothesRecommendationsItem/>
       <ClothesRecommendationsItem/>
       <ClothesRecommendationsItem/>
     </div>
-    <div class="clothes-recommendations__style-switcher">
-      <span>Choose style:</span><IconButton/><IconButton/><IconButton/>
+    <div class="flex items-center justify-center leading-none pb-7 lg:pb-2.5">
+      <span>Choose style:</span>
+      <IconButton/><IconButton/><IconButton/>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
-@use '@/assets/styles/breakpoints' as bp;
-
-.clothes-recommendations {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 25px;
-
-  &__title {
-    text-align: center;
-    padding-bottom: 20px;
-    font-weight: bold;
-  }
-
-  &__recommendations {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, auto);
-    gap: 10px 30px;
-  }
-
-  &__style-switcher {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    padding-bottom: 30px;
-
-    @include bp.respond-to('lg') {
-      padding-bottom: 10px;
-    }
-  }
+<script>
+import IconButton from './IconButton';
+export default {
+  name: 'ClothesRecommendations',
+  components: { IconButton },
 }
-</style>
-
-<script setup lang="ts">
-import IconButton from '~/components/ClothesRecommendations/IconButton.vue';
 </script>

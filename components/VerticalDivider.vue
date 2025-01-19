@@ -10,3 +10,9 @@
   border: 1px solid rgba(240, 248, 255, 0.2);
 }
 </style>
+
+<script>
+export default {
+  name: 'VerticalDivider'
+}
+</script>

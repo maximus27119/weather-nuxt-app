@@ -1,74 +1,18 @@
 <template>
-  <div class="dialog-container">
+  <div class="flex justify-center items-center h-full">
     <Dialog>
-      <div class="dialog-content__weather">
+      <div class="lg:flex lg:w-1/2 lg:max-w-1/2">
         <WeatherDetails />
       </div>
-      <HorizontalDivider class="horizontal-divider" />
-      <div class="dialog-content__forecast-outfit">
-        <div class="dialog-content__outfit">
+      <HorizontalDivider class="lg:hidden" />
+      <div class="w-full flex flex-col-reverse lg:flex-col lg:w-1/2">
+        <div class="flex-1">
           <ClothesRecommendations/>
         </div>
-        <div class="dialog-content__forecast">
+        <div class="flex flex-col w-full justify-between lg:pb-0 pb-12">
           <WeatherForecast/>
         </div>
       </div>
     </Dialog>
   </div>
 </template>
-
-<style scoped lang="scss">
-@use "@/assets/styles/breakpoints" as bp;
-
-.dialog-container {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.dialog-content {
-  &__weather {
-    @include bp.respond-to('lg') {
-      display: flex;
-      width: 50%;
-      max-width: 50%;
-    }
-  }
-
-  &__forecast-outfit {
-    width: 100%;
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: space-between;
-
-    @include bp.respond-to('lg') {
-      width: 50%;
-      flex-direction: column;
-    }
-  }
-
-  &__outfit {
-    flex: 1 1 auto;
-  }
-
-  &__forecast {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: space-between;
-    flex: 0 0 auto;
-    padding-bottom: 50px;
-
-    @include bp.respond-to('lg') {
-      padding-bottom: 0;
-    }
-  }
-}
-
-.horizontal-divider {
-  @include bp.respond-to('lg') {
-    display: none;
-  }
-}
-</style>
