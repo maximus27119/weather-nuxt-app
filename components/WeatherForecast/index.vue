@@ -1,15 +1,13 @@
 <template>
   <div class="weather-forecast-container w-full flex justify-evenly">
-    <WeatherForecastItem/>
-    <WeatherForecastItem/>
-    <WeatherForecastItem/>
-    <WeatherForecastItem/>
-    <WeatherForecastItem/>
+    <WeatherForecastItem v-for="(item, index) in forecast" :data="item" :key="index"/>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'WeatherForecast'
-}
+<script setup lang="ts">
+const props = defineProps({
+  data: Array
+});
+
+const forecast = computed(() => props.data?.slice(1, 6))
 </script>
