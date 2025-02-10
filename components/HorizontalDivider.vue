@@ -1,5 +1,5 @@
 <template>
-  <div class="verticalDivider"></div>
+  <div class="horizontalDivider"></div>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.verticalDivider {
+.horizontalDivider {
   width: 100%;
   color: aliceblue;
   height: 1px;

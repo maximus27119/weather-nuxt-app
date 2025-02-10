@@ -1,16 +1,12 @@
 <template>
   <div class="w-full h-full flex flex-col justify-around items-center text-xl">
     <p class="text-center pb-5 font-bold">Clothes recommendations</p>
-    <div class="grid grid-cols-3 grid-rows-2 gap-x-7 gap-y-2.5">
+    <div class="grid grid-cols-3 grid-rows-2 gap-x-7 gap-y-2.5 pb-7">
       <ClothesRecommendationsItem
           v-for="(item, index) in clothingSuggestions"
           :key="index"
           :clothing="item"
       />
-    </div>
-    <div class="flex items-center justify-center leading-none pb-7 lg:pb-2.5">
-<!--      <span>Choose style:</span>-->
-<!--      <IconButton/><IconButton/><IconButton/>-->
     </div>
   </div>
 </template>
@@ -22,8 +18,8 @@ console.log(props);
 const temperature = computed(() => props.data?.temp);
 const weather = computed(() => String(props.data?.weather[0].main).toLowerCase());
 
-const getClothingSuggestion = (temperature, weatherType) => {
-  let clothing = [];
+const getClothingSuggestion = (temperature: number, weatherType: string) => {
+  let clothing: string[] = [];
 
   // Hot Weather (Above 30°C / 86°F)
   if (temperature > 30)

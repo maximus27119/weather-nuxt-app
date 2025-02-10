@@ -28,7 +28,7 @@ const route = useRoute();
 const router = useRouter();
 
 const weather = ref<object | null>(null);
-const forecast = ref<Array>([]);
+const forecast = ref<Array<Object>>([]);
 
 const loading = ref<boolean>(true);
 const error = ref<string | null>(null);
@@ -59,7 +59,6 @@ const loadWeatherData = async () => {
 
     const response = await fetchWeather(longitude.value, latitude.value);
 
-    // console.log(response);
     weather.value = response.current;
     weather.value.city = city.value;
     forecast.value = response.daily;
@@ -69,10 +68,6 @@ const loadWeatherData = async () => {
     loading.value = false;
   }
 }
-
-// onServerPrefetch(async () => {
-//   await loadWeatherData();
-// });
 
 onMounted(async () => {
   await loadWeatherData();

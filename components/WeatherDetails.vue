@@ -34,8 +34,6 @@ const weatherCode = computed(() => data.weather[0].main.toLowerCase());
 
 const weatherIcon = computed(() => `/icons/weather/${weatherCode.value}.png`);
 
-// console.log(data);
-
 const changeTemperatureMode = (value: 'celsius' | 'fahrenheit') => {
   if (temperatureMode.value !== value)
     temperatureMode.value = value;

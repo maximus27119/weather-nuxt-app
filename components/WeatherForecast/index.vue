@@ -1,5 +1,5 @@
 <template>
-  <div class="weather-forecast-container w-full flex justify-evenly">
+  <div class="w-full flex justify-evenly">
     <WeatherForecastItem v-for="(item, index) in forecast" :data="item" :key="index"/>
   </div>
 </template>
