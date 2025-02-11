@@ -2,6 +2,8 @@
 
 This is a Nuxt 3 application that provides weather forecasts and suggests clothing based on the weather.
 
+Test demo: https://weather-nuxt-app-mu.vercel.app/
+
 ## Getting Started
 
 Follow the steps below to set up and run the project.
