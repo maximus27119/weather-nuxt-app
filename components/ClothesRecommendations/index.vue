@@ -12,11 +12,15 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(['data']);
-console.log(props);
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+});
 
-const temperature = computed(() => props.data?.temp);
-const weather = computed(() => String(props.data?.weather[0].main).toLowerCase());
+const temperature = computed(() => props.data.temp);
+const weather = computed(() => String(props.data.weather[0]?.main).toLowerCase());
 
 const getClothingSuggestion = (temperature: number, weatherType: string) => {
   let clothing: string[] = [];
@@ -35,11 +39,11 @@ const getClothingSuggestion = (temperature: number, weatherType: string) => {
 
   // Cool Weather (0–10°C / 32–50°F)
   else if (temperature > 0 && temperature <= 10)
-    clothing = ['sweater', 'coat', 'boots'];
+    clothing = ['sweater', 'coat', 'jeans', 'boots'];
 
   // Cold Weather (Below 0°C / 32°F)
   else if (temperature <= 0)
-    clothing = ['coat', 'thermal layers', 'boots', 'gloves'];
+    clothing = ['coat', 'thermal layers', 'jeans', 'boots', 'gloves'];
 
   if (weatherType === 'rain')
     clothing.push('umbrella');

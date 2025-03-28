@@ -40,7 +40,7 @@ const geocode = async () => {
     const response = await $fetch(url, { parseResponse: JSON.parse });
     const { lat, lon } = response[0];
     redirectToWeather(lat, lon);
-  } catch (err) {
+  } catch (err: any) {
     error.value = err?.statusText || 'Could not get location.';
   } finally {
     loading.value = false;

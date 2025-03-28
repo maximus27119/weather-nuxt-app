@@ -8,7 +8,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(['clothing']);
+const props = defineProps({
+  clothing: {
+    type: String,
+    required: true
+  }
+});
 
 const capitalize = (str: string) => {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();

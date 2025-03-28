@@ -7,10 +7,16 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(['data']);
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+});
+
 const dayName = ref<string>('');
 
-const weatherCode = computed(() => props.data.weather[0].main.toLowerCase());
+const weatherCode = computed(() => props.data.weather[0]?.main.toLowerCase());
 
 const temperature = computed(() => { 
   const value = props.data.temp.max.toFixed(0);
@@ -18,8 +24,6 @@ const temperature = computed(() => {
 });
 
 const weatherIcon = computed(() => `/icons/weather/${weatherCode.value}.png`);
-
-console.log(props.data);
 
 onMounted(() => {
   const date = new Date(props.data.dt * 1000);

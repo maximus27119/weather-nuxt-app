@@ -1,16 +1,22 @@
 <template>
   <div class="flex justify-center items-center h-full">
     <Dialog>
+      <div v-if="loading" class="flex w-full items-center justify-center">
+        <div class="w-10 h-10 border-4 border-white-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+      <p v-if="error" class="w-full text-center flex justify-center items-center min-h-[200px] text-lg text-red-500">
+        Error: {{ error }}
+      </p>
       <div v-if="weather" class="lg:flex lg:w-1/2 lg:max-w-1/2">
         <WeatherDetails :data="weather"/>
       </div>
       <HorizontalDivider class="lg:hidden" />
-      <div class="w-full flex flex-col-reverse lg:flex-col lg:w-1/2">
+      <div v-if="weather || forecast.length > 0" class="w-full flex flex-col-reverse lg:flex-col lg:w-1/2">
         <div class="flex-1">
-          <ClothesRecommendations :data="weather"/>
+          <ClothesRecommendations v-if="weather" :data="weather"/>
         </div>
         <div class="flex flex-col w-full justify-between lg:pb-0 pb-12">
-          <WeatherForecast :data="forecast"/>
+          <WeatherForecast v-if="forecast.length > 0" :data="forecast"/>
         </div>
       </div>
     </Dialog>
@@ -22,20 +28,27 @@ import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from '#vue-router';
 import { $fetch } from 'ofetch';
 const config = useRuntimeConfig();
-console.log('config', config);
 
 const route = useRoute();
 const router = useRouter();
 
-const weather = ref<object | null>(null);
-const forecast = ref<Array<Object>>([]);
+interface WeatherData {
+  current: {
+    [key: string]: any;
+    city?: string;
+  };
+  daily: Object[];
+}
+
+const weather = ref<WeatherData['current'] | null>(null);
+const forecast = ref<WeatherData['daily']>([]);
 
 const loading = ref<boolean>(true);
 const error = ref<string | null>(null);
 
-const latitude = computed(() => route.query.lat);
-const longitude = computed(() => route.query.lon);
-const city = computed(() => route.query.city);
+const latitude = computed(() => Number(route.query.lat));
+const longitude = computed(() => Number(route.query.lon));
+const city = computed(() => route.query.city as string);
 
 if(!latitude.value || !longitude.value)
   router.push('/');
@@ -60,9 +73,12 @@ const loadWeatherData = async () => {
     const response = await fetchWeather(longitude.value, latitude.value);
 
     weather.value = response.current;
-    weather.value.city = city.value;
+    
+    if (weather.value)
+      weather.value.city = city.value;
+
     forecast.value = response.daily;
-  } catch (err) {
+  } catch (err: any) {
     error.value = err.message;
   } finally {
     loading.value = false;

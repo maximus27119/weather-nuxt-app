@@ -6,7 +6,10 @@
 
 <script setup lang="ts">
 const props = defineProps({
-  data: Array
+  data: {
+    type: Array,
+    required: true
+  }
 });
 
 const forecast = computed(() => props.data?.slice(1, 6))
