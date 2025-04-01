@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     public: {
       weatherApiUrl: process.env.WEATHER_API_URL || '',
       geocodeApiUrl: process.env.GEOCODE_API_URL || '',
+      mapboxApiKey: process.env.MAPBOX_API_KEY || '',
       apiKey: process.env.API_KEY || '',
     },
   }

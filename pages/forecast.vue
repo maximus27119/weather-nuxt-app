@@ -27,6 +27,8 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from '#vue-router';
 import { $fetch } from 'ofetch';
+
+const { $mapbox } = useNuxtApp();
 const config = useRuntimeConfig();
 
 const route = useRoute();
@@ -34,8 +36,12 @@ const router = useRouter();
 
 interface WeatherData {
   current: {
-    [key: string]: any;
-    city?: string;
+    city: string;
+    temp: number;
+    feels_like: number;
+    weather: Array<{ main: string }>;
+    wind_speed: number;
+    humidity: number;
   };
   daily: Object[];
 }
@@ -46,29 +52,34 @@ const forecast = ref<WeatherData['daily']>([]);
 const loading = ref<boolean>(true);
 const error = ref<string | null>(null);
 
-const latitude = computed(() => Number(route.query.lat));
+const city = ref<string>('');
+
 const longitude = computed(() => Number(route.query.lon));
-const city = computed(() => route.query.city as string);
+const latitude = computed(() => Number(route.query.lat));
 
 if(!latitude.value || !longitude.value)
   router.push('/');
 
+const fetchCity = async (longitude: number, latitude: number) => {
+  return $mapbox.reverseGeocode(longitude, latitude);
+}
+
 const fetchWeather = async (lon: number, lat: number) => {
-  try {
-    return await $fetch(
+    return $fetch(
         `${config.public.weatherApiUrl}?lat=${lat}&lon=${lon}&units=metric&appid=${config.public.apiKey}`,
         {
           parseResponse: JSON.parse
         }
     );
-  } catch (err) {
-    throw new Error('Could not fetch weather from API');
-  }
 };
 
 const loadWeatherData = async () => {
   try {
-    if (!longitude.value || !latitude.value) throw new Error('No location provided');
+    if (!longitude.value || !latitude.value)
+        throw new Error('No location provided');
+      
+    const geocodedCity = await fetchCity(longitude.value, latitude.value);
+    city.value = geocodedCity.body.features[0]?.place_name;
 
     const response = await fetchWeather(longitude.value, latitude.value);
 

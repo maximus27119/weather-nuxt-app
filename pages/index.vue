@@ -2,10 +2,27 @@
   <div class="flex justify-center items-center h-screen">
     <Dialog>
       <div class="w-full h-full flex flex-col justify-center items-center">
-        <p class="text-3xl text-white font-semibold pb-5">Weather Forecast</p>
-        <div class="flex justify-center items-center">
-          <input v-model="city" @keydown.enter="handleSubmit" type="text" class="w-3/4 border-gray-300 bg-gray-600 border p-2 mr-3 rounded-md text-base text-white" placeholder="Enter city name">
+        <div class="relative">
+          <p class="text-3xl text-white font-semibold pb-5">Weather Forecast</p>
+          <NuxtLink to="/about-us" class="text-sm text-gray-400 hover:text-gray-200 absolute right-0 top-8">About us</NuxtLink>
+        </div>
+        <div class="flex justify-center items-center relative">
+          <input 
+            v-model="city" 
+            @keydown.enter="handleSubmit"
+            @input="handleInput"
+            type="text" 
+            class="w-3/4 border-2 border-gray-300 bg-gray-600 p-2 mr-3 rounded-md text-base text-white outline-none focus:border-white focus:ring-2 focus:ring-white/20" 
+            placeholder="Enter city name"
+          >
           <button @click="handleSubmit" :disabled="loading" class="py-2 px-5 bg-gray-600 rounded-md hover:bg-gray-500">Search</button>
+          <div v-if="suggestions.length > 0" class="absolute top-12 mt-1 bg-gray-600 p-2 border rounded-md " style="min-width: 300px;">
+            <ul>
+              <li v-for="suggestion in suggestions" :key="suggestion.properties.mapbox_id" class="cursor-pointer text-gray-400 hover:text-gray-200" @click="redirectToWeather(suggestion.center[0], suggestion.center[1])">
+                {{ suggestion.place_name }}
+              </li>
+            </ul>
+          </div>
         </div>
         <p v-if="error" class="text-sm text-red-600 pt-2">{{ error }}</p>
       </div>
@@ -15,17 +32,35 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { $fetch } from 'ofetch';
 import { useRouter } from 'vue-router';
+const { $mapbox } = useNuxtApp();
 
-const config = useRuntimeConfig();
+interface Suggestion {
+  properties: {
+    mapbox_id: string;
+  };
+  place_name: string;
+  geometry: {
+    coordinates: [number, number];
+  };
+  center: [number, number];
+};
+
 const city = ref<string>('');
+const suggestions = ref<Suggestion[]>([]);
 const loading = ref<boolean>(false);
 const error = ref<string | null>('');
 
 const router = useRouter();
 
-const geocode = async () => {
+const redirectToWeather = (longitude: number, latitude: number) => {
+  router.push({
+    path: '/forecast',
+    query: { lon: longitude, lat: latitude },
+  });
+};
+
+const handleSubmit = async () => {
   if (!city.value) {
     error.value = 'Please enter a city';
     return;
@@ -34,12 +69,14 @@ const geocode = async () => {
   error.value = null;
   loading.value = true;
 
-  const url = formUrl(city.value);
-
   try {
-    const response = await $fetch(url, { parseResponse: JSON.parse });
-    const { lat, lon } = response[0];
-    redirectToWeather(lat, lon);
+    const response = await $mapbox.geocode(city.value);
+    const coordinates = response.body.features[0]?.center;
+    
+    if (coordinates) {
+      const [longitude, latitude] = coordinates;
+      redirectToWeather(longitude, latitude);
+    }
   } catch (err: any) {
     error.value = err?.statusText || 'Could not get location.';
   } finally {
@@ -47,16 +84,13 @@ const geocode = async () => {
   }
 }
 
-const formUrl = (city: string) => {
-  return `${config.public.geocodeApiUrl}?q=${city}&limit=5&appid=${config.public.apiKey}`;
-};
+const handleInput = async () => {
+  if(!city.value){
+    suggestions.value = [];
+    return;
+  }
 
-const redirectToWeather = (lat: number, lon: number) => {
-  router.push({
-    path: '/forecast',
-    query: { lat, lon, city: city.value },
-  });
+  const response = await $mapbox.getSuggestions(city.value);
+  suggestions.value = response.body.features;
 };
-
-const handleSubmit = async () => await geocode();
 </script>
