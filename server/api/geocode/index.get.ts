@@ -1,4 +1,4 @@
-import MapboxClient from '@mapbox/mapbox-sdk/services/geocoding'
+import MapboxClient from '@mapbox/mapbox-sdk/services/geocoding.js'
 
 export default defineEventHandler(async (event) => {
 	const query = getQuery(event);
