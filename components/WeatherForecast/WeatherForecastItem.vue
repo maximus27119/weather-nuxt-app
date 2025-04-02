@@ -23,7 +23,7 @@ const temperature = computed(() => {
   return value === '-0' ? '0' : value;
 });
 
-const weatherIcon = computed(() => `/icons/weather/${weatherCode.value}.png`);
+const weatherIcon = computed(() => `/icons/weather/${weatherCode.value}.webp`);
 
 onMounted(() => {
   const date = new Date(props.data.dt * 1000);

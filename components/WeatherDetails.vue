@@ -54,7 +54,7 @@ const formatTemperature = (celsius: number, mode: 'celsius' | 'fahrenheit') => {
 };
 
 const weatherCode = computed(() => props.data.weather[0]?.main.toLowerCase() ?? 'unknown');
-const weatherIcon = computed(() => `/icons/weather/${weatherCode.value}.png`);
+const weatherIcon = computed(() => `/icons/weather/${weatherCode.value}.webp`);
 
 const temperature = computed(() => {
   return formatTemperature(props.data.temp, temperatureMode.value)

@@ -19,6 +19,6 @@ const capitalize = (str: string) => {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
-const clothIcon = computed(() => `/icons/clothes/${props.clothing}.png`);
+const clothIcon = computed(() => `/icons/clothes/${props.clothing}.webp`);
 const clothName = computed(() => capitalize(props.clothing));
 </script>
