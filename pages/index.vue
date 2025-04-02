@@ -70,8 +70,12 @@ const handleSubmit = async () => {
   loading.value = true;
 
   try {
-    const response = await $mapbox.geocode(city.value);
-    const coordinates = response.body.features[0]?.center;
+    const response = await $fetch(`/api/geocode`, {
+      query: {
+        city: city.value
+      }, 
+    });
+    const coordinates = response.features[0]?.center;
     
     if (coordinates) {
       const [longitude, latitude] = coordinates;
@@ -90,7 +94,8 @@ const handleInput = async () => {
     return;
   }
 
-  const response = await $mapbox.getSuggestions(city.value);
-  suggestions.value = response.body.features;
+  const response = await $fetch(`/api/geocode/suggestions`, { query: { query: city.value }});
+
+  suggestions.value = response.features;
 };
 </script>

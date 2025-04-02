@@ -28,9 +28,6 @@ import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from '#vue-router';
 import { $fetch } from 'ofetch';
 
-const { $mapbox } = useNuxtApp();
-const config = useRuntimeConfig();
-
 const route = useRoute();
 const router = useRouter();
 
@@ -61,16 +58,11 @@ if(!latitude.value || !longitude.value)
   router.push('/');
 
 const fetchCity = async (longitude: number, latitude: number) => {
-  return $mapbox.reverseGeocode(longitude, latitude);
+  return $fetch('/api/geocode/reverse', { query: { lat: latitude, lon: longitude } });
 }
 
 const fetchWeather = async (lon: number, lat: number) => {
-    return $fetch(
-        `${config.public.weatherApiUrl}?lat=${lat}&lon=${lon}&units=metric&appid=${config.public.apiKey}`,
-        {
-          parseResponse: JSON.parse
-        }
-    );
+  return $fetch('/api/weather', { query: { lon, lat } });
 };
 
 const loadWeatherData = async () => {
@@ -79,10 +71,9 @@ const loadWeatherData = async () => {
         throw new Error('No location provided');
       
     const geocodedCity = await fetchCity(longitude.value, latitude.value);
-    city.value = geocodedCity.body.features[0]?.place_name;
+    city.value = geocodedCity.features[0]?.place_name;
 
     const response = await fetchWeather(longitude.value, latitude.value);
-
     weather.value = response.current;
     
     if (weather.value)
